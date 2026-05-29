@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VETA 0.2 API Ready</title>
+<style>
+body{font-family:Arial,sans-serif;background:#fdfbf7;color:#444;max-width:1100px;margin:auto;padding:24px}
+.card{background:white;border:1px solid #e7e2d8;border-radius:18px;padding:20px;margin:12px 0}
+select,textarea,button{padding:12px;border-radius:12px;border:1px solid #ddd}
+textarea{width:100%;height:120px}
+button{background:#8FA382;color:white;border:none;cursor:pointer}
+#story{min-height:320px}
+.badge{display:inline-block;background:#f2eee6;padding:8px 12px;border-radius:999px;margin-right:8px}
+</style>
+</head>
+<body>
+<h1>🌿 VETA Spanish 0.2</h1>
+<p><strong>Write your own story in Spanish.</strong></p>
+
+<div class="card">
+<label>Story World</label>
+<select id="genre">
+<option>Mystery</option>
+<option>Travel</option>
+<option>Magical Realism</option>
+<option>Science Fiction</option>
+<option>Everyday Life</option>
+</select>
+
+<label>Level</label>
+<select id="level">
+<option>A1</option>
+<option>A2</option>
+<option>B1</option>
+<option>B2</option>
+</select>
+</div>
+
+<div class="card">
+<h2 id="title">📖 The Green Door</h2>
+<div class="badge">Chapter 1</div>
+<div class="badge" id="words">Words: 0</div>
+</div>
+
+<div class="card" id="story">
+<p><strong>VETA:</strong> Llegas a un mercado junto al mar. Una puerta verde destaca entre los puestos. ¿Qué haces?</p>
+</div>
+
+<div class="card">
+<textarea id="input" placeholder="Escribe en español..."></textarea>
+<br><br>
+<button onclick="sendToVeta()">Continue Story</button>
+</div>
+
+<script>
+let history=[];
+
+async function sendToVeta(){
+ const text=document.getElementById('input').value.trim();
+ if(!text) return;
+
+ document.getElementById('story').innerHTML +=
+ `<p><strong>Tú:</strong> ${text}</p>`;
+
+ document.getElementById('words').innerText =
+ "Words: " + text.split(/\s+/).length;
+
+ // TODO: Replace with Cloudflare Worker URL
+ // const response = await fetch('/api/story',{...})
+
+ const demoResponse = {
+   correction:"Muy bien. Frase comprendida.",
+   vocabulary:"cerradura = lock",
+   story:"La puerta se abre lentamente y encuentras una escalera iluminada por velas. ¿Bajas las escaleras?"
+ };
+
+ document.getElementById('story').innerHTML += `
+ <div style="background:#f7f3ea;padding:12px;border-radius:12px;margin-top:10px">
+ <strong>🌿 Correction</strong><br>${demoResponse.correction}<br><br>
+ <strong>📚 Vocabulary</strong><br>${demoResponse.vocabulary}<br><br>
+ <strong>📖 Story</strong><br>${demoResponse.story}
+ </div>`;
+
+ document.getElementById('input').value='';
+}
+</script>
+</body>
+</html>
