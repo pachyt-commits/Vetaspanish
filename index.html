@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VETA 0.7 | Beta Feedback</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Arimo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FDFBF7;
+  --paper:#FFFDF9;
+  --paper2:#F7F1E8;
+  --ink:#34342F;
+  --muted:#786F64;
+  --sage:#8FA382;
+  --sage-dark:#5F7358;
+  --terracotta:#D98A6C;
+  --gold:#C4A76D;
+  --line:#E8DFD2;
+  --shadow:0 28px 90px rgba(73,58,42,.14);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arimo,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(217,138,108,.18), transparent 30%),
+    radial-gradient(circle at 90% 14%, rgba(143,163,130,.22), transparent 32%),
+    linear-gradient(135deg,#FDFBF7,#F5ECE0);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.65;
+  background-image:
+    linear-gradient(rgba(143,163,130,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143,163,130,.055) 1px, transparent 1px);
+  background-size:46px 46px;
+  mask-image:linear-gradient(to bottom,black,transparent 88%);
+}
+.app{
+  width:min(1240px,calc(100% - 30px));
+  margin:0 auto;
+  padding:28px 0 40px;
+  position:relative;
+}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-size:13px;
+  font-weight:800;
+  color:var(--sage-dark);
+}
+.mark{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  border:1px solid rgba(143,163,130,.7);
+  background:rgba(255,255,255,.52);
+}
+.nav-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button,select{
+  font-family:inherit;
+}
+button{
+  border:0;
+  border-radius:999px;
+  padding:12px 18px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+}
+button:hover{transform:translateY(-2px)}
+button:disabled{opacity:.65;cursor:wait;transform:none}
+.primary{
+  background:var(--sage);
+  color:#fff;
+  box-shadow:0 14px 34px rgba(95,115,88,.24);
+}
+.secondary{
+  background:rgba(255,255,255,.55);
+  color:var(--sage-dark);
+  border:1px solid var(--line);
+}
+.ghost{
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line);
+}
+.screen{display:none}
+.screen.active{display:block}
+
+/* HOME */
+.home{
+  min-height:calc(100vh - 110px);
+  display:grid;
+  place-items:center;
+}
+.home-card{
+  width:min(980px,100%);
+  display:grid;
+  grid-template-columns:.95fr 1.05fr;
+  gap:34px;
+  align-items:center;
+}
+.hero-copy{
+  padding:20px 0;
+}
+.kicker{
+  color:var(--terracotta);
+  text-transform:uppercase;
+  letter-spacing:.17em;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:16px;
+}
+h1{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(48px,7vw,92px);
+  line-height:.91;
+  margin:0 0 22px;
+}
+.subtitle{
+  font-size:19px;
+  line-height:1.75;
+  color:var(--muted);
+  max-width:560px;
+}
+.tagline{
+  margin:24px 0 32px;
+  font-family:"Playfair Display",serif;
+  color:var(--sage-dark);
+  font-size:25px;
+}
+.cover-preview{
+  min-height:560px;
+  border-radius:34px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.55),rgba(255,255,255,.18)),
+    linear-gradient(160deg,#F2E7D8,#FCFAF6 62%,#EAF0E5);
+  border:1px solid rgba(232,223,210,.95);
+  box-shadow:var(--shadow);
+  padding:34px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.cover-preview:after{
+  content:"";
+  position:absolute;
+  inset:25px;
+  border:1px solid rgba(196,167,109,.32);
+  border-radius:26px;
+  pointer-events:none;
+}
+.cover-ornament{
+  position:absolute;
+  right:-55px;
+  top:60px;
+  font-size:170px;
+  opacity:.08;
+  transform:rotate(-18deg);
+}
+.cover-small{
+  color:var(--terracotta);
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:12px;
+  font-weight:800;
+}
+.cover-title{
+  font-family:"Playfair Display",serif;
+  font-size:58px;
+  line-height:.95;
+  margin-top:60px;
+  color:#35332d;
+}
+.cover-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:32px;
+}
+.meta-box{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  background:rgba(255,255,255,.48);
+}
+.meta-box strong{
+  display:block;
+  font-size:20px;
+  color:var(--sage-dark);
+}
+.meta-box span{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+/* SETUP */
+.setup-wrap{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:22px;
+}
+.panel{
+  background:rgba(255,253,249,.82);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+}
+.setup-panel{padding:24px}
+.panel h2{
+  font-family:"Playfair Display",serif;
+  font-size:34px;
+  margin:0 0 10px;
+}
+.panel p{color:var(--muted);line-height:1.65}
+.field{margin:18px 0}
+label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:800;
+  font-size:13px;
+  color:var(--sage-dark);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+select,input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:13px 14px;
+  background:rgba(255,255,255,.72);
+  color:var(--ink);
+  outline:none;
+}
+.seeds{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  padding:22px;
+}
+.seed{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  background:rgba(255,255,255,.58);
+  cursor:pointer;
+  transition:.2s ease;
+}
+.seed:hover,.seed.selected{
+  transform:translateY(-2px);
+  border-color:rgba(143,163,130,.75);
+  box-shadow:0 14px 32px rgba(95,115,88,.12);
+}
+.seed .emoji{font-size:26px;margin-bottom:10px}
+.seed strong{display:block;color:var(--ink);margin-bottom:7px}
+.seed span{font-size:14px;color:var(--muted);line-height:1.5}
+
+/* BOOK */
+.book-layout{
+  display:grid;
+  grid-template-columns:1fr 350px;
+  gap:22px;
+}
+.book-main{
+  min-height:680px;
+  padding:30px;
+}
+.book-header{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  border-bottom:1px solid var(--line);
+  padding-bottom:20px;
+  margin-bottom:22px;
+}
+.book-title{
+  font-family:"Playfair Display",serif;
+  font-size:43px;
+  line-height:1;
+}
+.book-sub{
+  color:var(--muted);
+  margin-top:8px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  min-width:320px;
+}
+.stat{
+  background:rgba(255,255,255,.56);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  text-align:center;
+}
+.stat strong{
+  display:block;
+  color:var(--sage-dark);
+  font-size:22px;
+}
+.stat span{
+  display:block;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:11px;
+  margin-top:3px;
+}
+.page-label{
+  color:var(--terracotta);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:16px;
+}
+.story-text{
+  font-family:"Playfair Display",serif;
+  font-size:23px;
+  line-height:1.82;
+  color:#38352e;
+  min-height:260px;
+}
+.entry{
+  margin:22px 0;
+  padding:18px 20px;
+  border-left:3px solid var(--sage);
+  background:rgba(237,242,234,.55);
+  border-radius:0 18px 18px 0;
+}
+.entry .by{
+  font-family:Arimo,sans-serif;
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--sage-dark);
+  font-weight:800;
+  margin-bottom:8px;
+}
+.writer{
+  margin-top:24px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+textarea{
+  width:100%;
+  min-height:118px;
+  resize:vertical;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:17px;
+  background:rgba(255,255,255,.76);
+  font-family:Arimo,sans-serif;
+  font-size:16px;
+  outline:none;
+  color:var(--ink);
+}
+textarea:focus{
+  border-color:var(--sage);
+  box-shadow:0 0 0 4px rgba(143,163,130,.14);
+}
+.writer-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:12px;
+}
+.hint{font-size:13px;color:var(--muted)}
+.side{
+  padding:22px;
+  position:sticky;
+  top:20px;
+  align-self:start;
+}
+.side h3{
+  font-family:"Playfair Display",serif;
+  font-size:30px;
+  margin:0 0 16px;
+}
+.feedback-card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:rgba(255,255,255,.56);
+  padding:16px;
+  margin-bottom:13px;
+}
+.feedback-card .f-title{
+  color:var(--sage-dark);
+  font-weight:800;
+  margin-bottom:7px;
+}
+.feedback-card p{
+  margin:0;
+  font-size:14px;
+  line-height:1.55;
+}
+.api-note{
+  margin-top:18px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* LIBRARY */
+.library-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:22px;
+}
+.library-book{
+  min-height:240px;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:linear-gradient(145deg,#FFFDF9,#EFE5D6);
+  padding:22px;
+  box-shadow:0 18px 50px rgba(73,58,42,.1);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.library-book h3{
+  font-family:"Playfair Display",serif;
+  font-size:28px;
+  margin:0;
+}
+.library-book p{margin:10px 0;color:var(--muted)}
+.empty{
+  padding:30px;
+  color:var(--muted);
+}
+
+
+/* FEEDBACK */
+.feedback-float{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:50;
+  border-radius:999px;
+  padding:13px 18px;
+  background:var(--sage);
+  color:white;
+  box-shadow:0 18px 50px rgba(73,58,42,.22);
+}
+.feedback-modal{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  place-items:center;
+  padding:22px;
+  background:rgba(52,52,47,.28);
+  backdrop-filter:blur(8px);
+}
+.feedback-modal.active{display:grid}
+.feedback-box{
+  width:min(560px,100%);
+  background:rgba(255,253,249,.96);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:24px;
+}
+.feedback-box h2{
+  font-family:"Playfair Display",serif;
+  font-size:34px;
+  margin:0 0 8px;
+}
+.feedback-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:18px 0;
+}
+.feedback-choice{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.7);
+  color:var(--ink);
+  border-radius:18px;
+  padding:14px 10px;
+}
+.feedback-choice.selected{
+  border-color:var(--sage);
+  box-shadow:0 0 0 4px rgba(143,163,130,.14);
+}
+.feedback-box textarea{
+  min-height:110px;
+}
+.feedback-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-top:14px;
+  flex-wrap:wrap;
+}
+.feedback-small{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+}
+
+@media(max-width:960px){
+  .home-card,.setup-wrap,.book-layout{grid-template-columns:1fr}
+  .cover-preview{min-height:420px}
+  .seeds,.library-grid{grid-template-columns:1fr}
+  .book-header{display:block}
+  .stats{min-width:0;margin-top:18px}
+  .side{position:relative;top:auto}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="nav">
+    <div class="brand"><div class="mark">🌿</div>VETA Spanish</div>
+    <div class="nav-actions">
+      <button class="ghost" onclick="showScreen('library')">My Library</button>
+      <button class="secondary" onclick="showScreen('setup')">New Story</button>
+    </div>
+  </nav>
+
+  <section id="home" class="screen active home">
+    <div class="home-card">
+      <div class="hero-copy">
+        <div class="kicker">AI-guided storytelling</div>
+        <h1>Write your own story in Spanish.</h1>
+        <p class="subtitle">Practice Spanish by building a living story. You write, VETA corrects gently, teaches vocabulary, and continues the adventure.</p>
+        <div class="tagline">Every sentence changes the story.</div>
+        <button class="primary" onclick="showScreen('setup')">Start Your Story</button>
+      </div>
+
+      <div class="cover-preview">
+        <div>
+          <div class="cover-small">Storybook Edition</div>
+          <div class="cover-title">The Green<br>Door</div>
+          <div class="cover-meta">
+            <div class="meta-box"><strong>0</strong><span>Words</span></div>
+            <div class="meta-box"><strong>1</strong><span>Page</span></div>
+            <div class="meta-box"><strong>0</strong><span>Words learned</span></div>
+          </div>
+        </div>
+        <div class="cover-small">VETA Spanish</div>
+        <div class="cover-ornament">🌿</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="setup" class="screen">
+    <div class="setup-wrap">
+      <div class="panel setup-panel">
+        <h2>Begin a living book</h2>
+        <p>Choose a world, a level, and a story seed. VETA will help you write in Spanish without throwing grammar bricks at your face. A rare mercy.</p>
+
+        <div class="field">
+          <label>Story World</label>
+          <select id="genre" onchange="suggestTitle()">
+            <option>Mystery</option>
+            <option>Travel</option>
+            <option>Magical Realism</option>
+            <option>Science Fiction</option>
+            <option>Everyday Life</option>
+            <option>Panama Adventure</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Spanish Level</label>
+          <select id="level">
+            <option>A1 Explorer</option>
+            <option>A2 Traveler</option>
+            <option>B1 Storyteller</option>
+            <option>B2 Narrator</option>
+            <option>C1 Voice</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Story Title</label>
+          <input id="storyTitle" value="The Green Door"/>
+        </div>
+
+        <button class="primary" onclick="beginStory()">Open Book</button>
+      </div>
+
+      <div class="panel">
+        <div class="seeds" id="seedList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book" class="screen">
+    <div class="book-layout">
+      <div class="panel book-main">
+        <div class="book-header">
+          <div>
+            <div class="book-title" id="bookTitle">The Green Door</div>
+            <div class="book-sub" id="bookMeta">Mystery • A1 Explorer</div>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong id="wordCount">0</strong><span>Words</span></div>
+            <div class="stat"><strong id="pageCount">1</strong><span>Pages</span></div>
+            <div class="stat"><strong id="vocabCount">0</strong><span>Vocab</span></div>
+          </div>
+        </div>
+
+        <div class="page-label" id="pageLabel">✦ First Page</div>
+        <div class="story-text" id="storyText">
+          Llegas a un mercado junto al mar. Entre los puestos de fruta, aparece una puerta verde que nadie parece notar.
+          Una mujer te mira y dice: “Esa puerta solo se abre cuando alguien hace la pregunta correcta.”
+          <br><br><strong>¿Qué preguntas?</strong>
+        </div>
+
+        <div id="entries"></div>
+
+        <div class="writer">
+          <textarea id="studentText" placeholder="Escribe la siguiente frase en español..."></textarea>
+          <div class="writer-row">
+            <span class="hint">Tip: write one or two sentences. Ctrl/⌘ + Enter also works.</span>
+            <button class="primary" onclick="continueBook()">Continue</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel side">
+        <h3>VETA Notes</h3>
+        <div class="feedback-card">
+          <div class="f-title">🌿 Correction</div>
+          <p id="correction">Write your first sentence and VETA will guide you.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">📚 New Word</div>
+          <p id="newWord">puerta = door</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">✨ Writing Tip</div>
+          <p id="tip">Use simple complete sentences. A beautiful start, because apparently clarity matters.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">📖 Story Direction</div>
+          <p id="direction">Mystery with gentle Spanish feedback.</p>
+        </div>
+        <div class="api-note">
+          Connected to VETA API through Cloudflare Worker. If the API fails, VETA saves your sentence and uses a local fallback.
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="library" class="screen">
+    <div class="panel setup-panel">
+      <h2>My Library</h2>
+      <p>Your local story collection. For now it lives in this browser, because every empire starts as a suspicious little folder somewhere.</p>
+      <div id="libraryGrid" class="library-grid"></div>
+    </div>
+  </section>
+
+  <button class="feedback-float" onclick="openFeedback()">💬 Feedback</button>
+
+  <div id="feedbackModal" class="feedback-modal">
+    <div class="feedback-box">
+      <h2>How was VETA?</h2>
+      <p>Your feedback helps shape the beta. Tiny miracle: users telling us what they actually need instead of us guessing dramatically.</p>
+
+      <div class="feedback-options">
+        <button class="feedback-choice" onclick="selectFeedback('Loved it', this)">😀 Loved it</button>
+        <button class="feedback-choice" onclick="selectFeedback('Confusing', this)">😐 Confusing</button>
+        <button class="feedback-choice" onclick="selectFeedback('Something broke', this)">😕 Something broke</button>
+      </div>
+
+      <textarea id="feedbackText" placeholder="What did you like, what confused you, or what should VETA improve?"></textarea>
+
+      <div class="feedback-row">
+        <span class="feedback-small">This opens your email app. No login, no tragic form architecture yet.</span>
+        <div>
+          <button class="ghost" onclick="closeFeedback()">Cancel</button>
+          <button class="primary" onclick="sendFeedback()">Send Feedback</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_URL = "https://veta-story-api.pachyt.workers.dev"; // Cloudflare Worker / OpenAI endpoint
+
+let feedbackRating = "";
+
+function openFeedback(){
+  document.getElementById("feedbackModal").classList.add("active");
+}
+
+function closeFeedback(){
+  document.getElementById("feedbackModal").classList.remove("active");
+}
+
+function selectFeedback(value, el){
+  feedbackRating = value;
+  document.querySelectorAll(".feedback-choice").forEach(btn=>btn.classList.remove("selected"));
+  el.classList.add("selected");
+}
+
+function sendFeedback(){
+  const comment = document.getElementById("feedbackText").value.trim();
+  const subject = encodeURIComponent("VETA Beta Feedback");
+  const body = encodeURIComponent(
+`Rating: ${feedbackRating || "Not selected"}
+
+Comment:
+${comment || "No comment"}
+
+Story:
+${state?.title || "No story yet"}
+
+Level:
+${state?.level || "Unknown"}
+
+Words:
+${state?.words || 0}
+
+Pages:
+${state?.pages || 1}
+
+VETA URL:
+${location.href}`
+  );
+
+  localStorage.setItem("vetaLastFeedback", JSON.stringify({
+    rating: feedbackRating,
+    comment,
+    story: state?.title || "",
+    createdAt: new Date().toISOString()
+  }));
+
+  window.location.href = `mailto:pachyt@gmail.com?subject=${subject}&body=${body}`;
+  closeFeedback();
+}
+
+
+const seedData = {
+  "Mystery": [
+    ["🚪","A mysterious green door appears in a market.","The Green Door"],
+    ["🗝️","Someone leaves an old key inside your bag.","The Last Key"],
+    ["🗺️","A map changes every time you look at it.","The Missing Map"],
+    ["🌙","A lighthouse turns on although nobody lives there.","The Last Lighthouse"]
+  ],
+  "Travel": [
+    ["✈️","You arrive in Panama and your suitcase is missing.","The Lost Passport"],
+    ["🌃","Casco Viejo looks different after midnight.","Panama by Moonlight"],
+    ["🚕","A taxi driver gives you a strange address.","Seven Streets Away"],
+    ["🌊","A boat waits for you at sunrise.","The Morning Boat"]
+  ],
+  "Magical Realism": [
+    ["🥭","A mango tree remembers every traveler.","The Mango Tree That Remembered"],
+    ["🌊","The ocean writes messages in the sand.","The Garden of Tides"],
+    ["🐈","A cat seems to know your name.","The Cat with Your Name"],
+    ["🕯️","A candle shows scenes from tomorrow.","The Candle of Tomorrow"]
+  ],
+  "Science Fiction": [
+    ["🚀","You wake up on a station where everyone speaks Spanish.","Station Verbena"],
+    ["🤖","A robot asks you to teach it one human word.","The First Word"],
+    ["🪐","A planet appears on no map.","The Unlisted Planet"],
+    ["📡","A message arrives from your future self.","Signal from Tomorrow"]
+  ],
+  "Everyday Life": [
+    ["☕","You open a small café and meet your first customer.","The First Coffee"],
+    ["🏠","Your neighbor leaves a note under your door.","The Note Upstairs"],
+    ["📚","A bookstore owner recommends a book that does not exist.","The Book That Wasn't There"],
+    ["🌧️","A rainy afternoon changes your routine.","Rain on Tuesday"]
+  ],
+  "Panama Adventure": [
+    ["🌿","A guide invites you into a rainforest trail.","The Hidden Trail"],
+    ["🚤","A boat appears every full moon.","The Moon Boat"],
+    ["🏛️","A museum guard whispers a secret about the city.","The Old City Secret"],
+    ["🌉","Near the Canal, someone asks for your help.","The Canal Message"]
+  ]
+};
+
+let state = {
+  title:"The Green Door",
+  genre:"Mystery",
+  level:"A1 Explorer",
+  words:0,
+  pages:1,
+  vocab:0,
+  entries:[],
+  started:false
+};
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id==="library") renderLibrary();
+}
+
+function renderSeeds(){
+  const genre = document.getElementById("genre").value;
+  const list = document.getElementById("seedList");
+  list.innerHTML = "";
+  seedData[genre].forEach((seed, index)=>{
+    const div = document.createElement("div");
+    div.className = "seed" + (index===0 ? " selected" : "");
+    div.onclick = () => selectSeed(div, seed);
+    div.innerHTML = `<div class="emoji">${seed[0]}</div><strong>${seed[2]}</strong><span>${seed[1]}</span>`;
+    list.appendChild(div);
+  });
+  document.getElementById("storyTitle").value = seedData[genre][0][2];
+}
+
+function selectSeed(el, seed){
+  document.querySelectorAll(".seed").forEach(s=>s.classList.remove("selected"));
+  el.classList.add("selected");
+  document.getElementById("storyTitle").value = seed[2];
+}
+
+function suggestTitle(){ renderSeeds(); }
+
+function beginStory(){
+  state = {
+    title: document.getElementById("storyTitle").value.trim() || "Untitled Story",
+    genre: document.getElementById("genre").value,
+    level: document.getElementById("level").value,
+    words:0,pages:1,vocab:0,entries:[],started:true
+  };
+  document.getElementById("bookTitle").innerText = state.title;
+  document.getElementById("bookMeta").innerText = `${state.genre} • ${state.level}`;
+  document.getElementById("direction").innerText = `${state.genre} story for ${state.level}`;
+  document.getElementById("entries").innerHTML = "";
+  updateStats();
+  saveCurrentStory();
+  showScreen("book");
+  document.getElementById("studentText").focus();
+}
+
+const localEngine = [
+  {
+    correction:"Your sentence is understandable. Try adding an accent if you use past tense verbs.",
+    word:"cerradura = lock",
+    tip:"Add one detail: color, place, emotion, or reason.",
+    story:"La puerta vibra suavemente. Detrás de ella escuchas pasos lentos y una voz que dice tu nombre. ¿Respondes o esperas?"
+  },
+  {
+    correction:"Good. Your idea is clear. For more natural Spanish, connect actions with entonces, porque, or pero.",
+    word:"susurrar = to whisper",
+    tip:"Use porque to explain your decision.",
+    story:"La voz susurra una frase: “El mercado no está donde crees.” De pronto, los puestos desaparecen y solo queda un camino de flores amarillas. ¿Lo sigues?"
+  },
+  {
+    correction:"Nice progress. Try using the first person: quiero, veo, camino, pregunto.",
+    word:"camino = path",
+    tip:"Use one verb in the present tense and one object.",
+    story:"Sigues el camino y encuentras una mesa pequeña con tres objetos: una llave, una carta y una flor seca. Solo puedes tomar uno. ¿Cuál eliges?"
+  },
+  {
+    correction:"Excellent attempt. Your sentence moves the story forward.",
+    word:"elegir = to choose",
+    tip:"Write one sentence with elijo because…",
+    story:"Cuando tomas el objeto, el mercado regresa a tu alrededor, pero ahora todos te miran como si supieran algo que tú todavía no sabes. ¿Qué preguntas?"
+  }
+];
+
+async function continueBook(){
+  const text = document.getElementById("studentText").value.trim();
+  if(!text) return;
+
+  const button = document.querySelector(".writer-row .primary");
+  const originalButtonText = button.innerText;
+  button.innerText = "VETA is writing...";
+  button.disabled = true;
+
+  const words = text.split(/\s+/).filter(Boolean).length;
+  state.words += words;
+  state.pages += 1;
+
+  let moment;
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text: text,
+        level: state.level,
+        genre: state.genre,
+        story: {
+          title: state.title,
+          entries: state.entries
+        }
+      })
+    });
+
+    moment = await response.json();
+
+    if(!moment.story){
+      throw new Error("Invalid VETA response");
+    }
+
+  } catch(error) {
+    moment = {
+      correction: "Connection issue. Your sentence was saved locally.",
+      word: "intento = attempt",
+      tip: "Try again in a moment.",
+      story: "La historia espera en silencio. La puerta sigue abierta, aunque la tecnología decidió comportarse como una cafetera antigua."
+    };
+  }
+
+  state.vocab += 1;
+
+  state.entries.push({
+    user:text,
+    correction:moment.correction,
+    word:moment.word,
+    tip:moment.tip,
+    story:moment.story
+  });
+
+  const entry = document.createElement("div");
+  entry.className = "entry";
+  entry.innerHTML = `
+    <div class="by">You wrote</div>
+    ${escapeHtml(text)}
+    <br><br>
+    <div class="by">Story continues</div>
+    ${moment.story}
+  `;
+
+  document.getElementById("entries").appendChild(entry);
+
+  document.getElementById("correction").innerText = moment.correction || "";
+  document.getElementById("newWord").innerText = moment.word || "";
+  document.getElementById("tip").innerText = moment.tip || "";
+  document.getElementById("pageLabel").innerText = `✦ Page ${state.pages}`;
+
+  document.getElementById("studentText").value = "";
+  updateStats();
+  saveCurrentStory();
+
+  button.innerText = originalButtonText;
+  button.disabled = false;
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateStats(){
+  document.getElementById("wordCount").innerText = state.words;
+  document.getElementById("pageCount").innerText = state.pages;
+  document.getElementById("vocabCount").innerText = state.vocab;
+}
+
+function saveCurrentStory(){
+  if(!state.started) return;
+  const library = JSON.parse(localStorage.getItem("vetaLibrary") || "[]");
+  const existing = library.findIndex(s=>s.title===state.title);
+  const snapshot = {...state, updated:new Date().toISOString()};
+  if(existing >= 0) library[existing] = snapshot;
+  else library.unshift(snapshot);
+  localStorage.setItem("vetaLibrary", JSON.stringify(library.slice(0,12)));
+}
+
+function renderLibrary(){
+  const grid = document.getElementById("libraryGrid");
+  const library = JSON.parse(localStorage.getItem("vetaLibrary") || "[]");
+  if(!library.length){
+    grid.innerHTML = `<div class="empty">No stories yet. Start one, because apparently books refuse to write themselves.</div>`;
+    return;
+  }
+  grid.innerHTML = "";
+  library.forEach(book=>{
+    const div = document.createElement("div");
+    div.className = "library-book";
+    div.innerHTML = `<div><h3>${escapeHtml(book.title)}</h3><p>${book.genre} • ${book.level}</p></div><div><p><strong>${book.words}</strong> words<br><strong>${book.pages}</strong> pages<br><strong>${book.vocab}</strong> vocabulary words</p></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+document.getElementById("studentText").addEventListener("keydown", e=>{
+  if(e.key==="Enter" && (e.ctrlKey || e.metaKey)) continueBook();
+});
+
+renderSeeds();
+</script>
+</body>
+</html>
