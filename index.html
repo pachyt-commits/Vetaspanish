@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VETA Language | Learn Spanish. Write Your Story.</title>
+<style>
+:root{
+  --cream:#FDFBF7;
+  --paper:#FFFDF9;
+  --paper2:#F7F1E8;
+  --ink:#34342F;
+  --muted:#786F64;
+  --sage:#8FA382;
+  --sage-dark:#5F7358;
+  --terracotta:#D98A6C;
+  --gold:#C4A76D;
+  --line:#E8DFD2;
+  --shadow:0 28px 90px rgba(73,58,42,.14);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Verdana, Geneva, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(217,138,108,.18), transparent 30%),
+    radial-gradient(circle at 90% 14%, rgba(143,163,130,.22), transparent 32%),
+    linear-gradient(135deg,#FDFBF7,#F5ECE0);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.65;
+  background-image:
+    linear-gradient(rgba(143,163,130,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143,163,130,.055) 1px, transparent 1px);
+  background-size:46px 46px;
+  mask-image:linear-gradient(to bottom,black,transparent 88%);
+}
+.app{
+  width:min(1240px,calc(100% - 30px));
+  margin:0 auto;
+  padding:28px 0 40px;
+  position:relative;
+}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-size:13px;
+  font-weight:800;
+  color:var(--sage-dark);
+}
+.mark{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  border:1px solid rgba(143,163,130,.7);
+  background:rgba(255,255,255,.52);
+}
+.nav-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button,select{
+  font-family:inherit;
+}
+button{
+  border:0;
+  border-radius:999px;
+  padding:12px 18px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+}
+button:hover{transform:translateY(-2px)}
+button:disabled{opacity:.65;cursor:wait;transform:none}
+.primary{
+  background:var(--sage);
+  color:#fff;
+  box-shadow:0 14px 34px rgba(95,115,88,.24);
+}
+.secondary{
+  background:rgba(255,255,255,.55);
+  color:var(--sage-dark);
+  border:1px solid var(--line);
+}
+.ghost{
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line);
+}
+.screen{display:none}
+.screen.active{display:block}
+
+/* HOME */
+.home{
+  min-height:calc(100vh - 110px);
+  display:grid;
+  place-items:center;
+}
+.home-card{
+  width:min(980px,100%);
+  display:grid;
+  grid-template-columns:.95fr 1.05fr;
+  gap:34px;
+  align-items:center;
+}
+.hero-copy{
+  padding:20px 0;
+}
+.kicker{
+  color:var(--terracotta);
+  text-transform:uppercase;
+  letter-spacing:.17em;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:16px;
+}
+h1{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(48px,7vw,92px);
+  line-height:.91;
+  margin:0 0 22px;
+}
+.subtitle{
+  font-size:19px;
+  line-height:1.75;
+  color:var(--muted);
+  max-width:560px;
+}
+.tagline{
+  margin:24px 0 32px;
+  font-family:Georgia, "Times New Roman", serif;
+  color:var(--sage-dark);
+  font-size:25px;
+}
+.cover-preview{
+  min-height:560px;
+  border-radius:34px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.55),rgba(255,255,255,.18)),
+    linear-gradient(160deg,#F2E7D8,#FCFAF6 62%,#EAF0E5);
+  border:1px solid rgba(232,223,210,.95);
+  box-shadow:var(--shadow);
+  padding:34px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.cover-preview:after{
+  content:"";
+  position:absolute;
+  inset:25px;
+  border:1px solid rgba(196,167,109,.32);
+  border-radius:26px;
+  pointer-events:none;
+}
+.cover-ornament{
+  position:absolute;
+  right:-55px;
+  top:60px;
+  font-size:170px;
+  opacity:.08;
+  transform:rotate(-18deg);
+}
+.cover-small{
+  color:var(--terracotta);
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:12px;
+  font-weight:800;
+}
+.cover-title{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:58px;
+  line-height:.95;
+  margin-top:60px;
+  color:#35332d;
+}
+.cover-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:32px;
+}
+.meta-box{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  background:rgba(255,255,255,.48);
+}
+.meta-box strong{
+  display:block;
+  font-size:20px;
+  color:var(--sage-dark);
+}
+.meta-box span{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+/* SETUP */
+.setup-wrap{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:22px;
+}
+.panel{
+  background:rgba(255,253,249,.82);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+}
+.setup-panel{padding:24px}
+.panel h2{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:34px;
+  margin:0 0 10px;
+}
+.panel p{color:var(--muted);line-height:1.65}
+.field{margin:18px 0}
+label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:800;
+  font-size:13px;
+  color:var(--sage-dark);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+select,input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:13px 14px;
+  background:rgba(255,255,255,.72);
+  color:var(--ink);
+  outline:none;
+}
+.seeds{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  padding:22px;
+}
+.seed{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  background:rgba(255,255,255,.58);
+  cursor:pointer;
+  transition:.2s ease;
+}
+.seed:hover,.seed.selected{
+  transform:translateY(-2px);
+  border-color:rgba(143,163,130,.75);
+  box-shadow:0 14px 32px rgba(95,115,88,.12);
+}
+.seed .emoji{font-size:26px;margin-bottom:10px}
+.seed strong{display:block;color:var(--ink);margin-bottom:7px}
+.seed span{font-size:14px;color:var(--muted);line-height:1.5}
+
+/* BOOK */
+.book-layout{
+  display:grid;
+  grid-template-columns:1fr 350px;
+  gap:22px;
+}
+.book-main{
+  min-height:680px;
+  padding:30px;
+}
+.book-header{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  border-bottom:1px solid var(--line);
+  padding-bottom:20px;
+  margin-bottom:22px;
+}
+.book-title{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:43px;
+  line-height:1;
+}
+.book-sub{
+  color:var(--muted);
+  margin-top:8px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  min-width:320px;
+}
+.stat{
+  background:rgba(255,255,255,.56);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  text-align:center;
+}
+.stat strong{
+  display:block;
+  color:var(--sage-dark);
+  font-size:22px;
+}
+.stat span{
+  display:block;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:11px;
+  margin-top:3px;
+}
+.page-label{
+  color:var(--terracotta);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:16px;
+}
+.story-text{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:23px;
+  line-height:1.82;
+  color:#38352e;
+  min-height:260px;
+}
+.entry{
+  margin:22px 0;
+  padding:18px 20px;
+  border-left:3px solid var(--sage);
+  background:rgba(237,242,234,.55);
+  border-radius:0 18px 18px 0;
+}
+.entry .by{
+  font-family:Verdana, Geneva, sans-serif;
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--sage-dark);
+  font-weight:800;
+  margin-bottom:8px;
+}
+.writer{
+  margin-top:24px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+textarea{
+  width:100%;
+  min-height:118px;
+  resize:vertical;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:17px;
+  background:rgba(255,255,255,.76);
+  font-family:Verdana, Geneva, sans-serif;
+  font-size:16px;
+  outline:none;
+  color:var(--ink);
+}
+textarea:focus{
+  border-color:var(--sage);
+  box-shadow:0 0 0 4px rgba(143,163,130,.14);
+}
+.writer-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:12px;
+}
+.hint{font-size:13px;color:var(--muted)}
+.side{
+  padding:22px;
+  position:sticky;
+  top:20px;
+  align-self:start;
+}
+.side h3{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:30px;
+  margin:0 0 16px;
+}
+.feedback-card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:rgba(255,255,255,.56);
+  padding:16px;
+  margin-bottom:13px;
+}
+.feedback-card .f-title{
+  color:var(--sage-dark);
+  font-weight:800;
+  margin-bottom:7px;
+}
+.feedback-card p{
+  margin:0;
+  font-size:14px;
+  line-height:1.55;
+}
+.api-note{
+  margin-top:18px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* LIBRARY */
+.library-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:22px;
+}
+.library-book{
+  min-height:240px;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:linear-gradient(145deg,#FFFDF9,#EFE5D6);
+  padding:22px;
+  box-shadow:0 18px 50px rgba(73,58,42,.1);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.library-book h3{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:28px;
+  margin:0;
+}
+.library-book p{margin:10px 0;color:var(--muted)}
+.empty{
+  padding:30px;
+  color:var(--muted);
+}
+
+
+/* FEEDBACK */
+.feedback-float{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:50;
+  border-radius:999px;
+  padding:13px 18px;
+  background:var(--sage);
+  color:white;
+  box-shadow:0 18px 50px rgba(73,58,42,.22);
+}
+.feedback-modal{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  place-items:center;
+  padding:22px;
+  background:rgba(52,52,47,.28);
+  backdrop-filter:blur(8px);
+}
+.feedback-modal.active{display:grid}
+.feedback-box{
+  width:min(560px,100%);
+  background:rgba(255,253,249,.96);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:24px;
+}
+.feedback-box h2{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:34px;
+  margin:0 0 8px;
+}
+.feedback-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:18px 0;
+}
+.feedback-choice{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.7);
+  color:var(--ink);
+  border-radius:18px;
+  padding:14px 10px;
+}
+.feedback-choice.selected{
+  border-color:var(--sage);
+  box-shadow:0 0 0 4px rgba(143,163,130,.14);
+}
+.feedback-box textarea{
+  min-height:110px;
+}
+.feedback-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-top:14px;
+  flex-wrap:wrap;
+}
+.feedback-small{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+}
+
+
+.level-guide{
+  margin-top:18px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:rgba(255,255,255,.62);
+  padding:18px;
+}
+.level-guide strong{
+  color:var(--sage-dark);
+  display:block;
+  margin-bottom:8px;
+}
+.level-examples{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+}
+
+
+.memory-list{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.5}
+.memory-list li{margin-bottom:5px}
+.level-free{margin-top:10px;padding:10px 12px;border-radius:16px;background:rgba(143,163,130,.12);color:var(--sage-dark);font-weight:700;font-size:13px;line-height:1.5}
+.choice-list{display:grid;gap:10px;margin-top:12px}
+.choice-btn{width:100%;text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.72);color:var(--ink);border-radius:16px;padding:12px 14px;box-shadow:none}
+.choice-btn:hover{border-color:var(--sage)}
+.path-card{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.48);padding:14px;margin-top:13px;color:var(--muted);font-size:13px;line-height:1.5}
+.vocab-list{margin:8px 0 0;padding-left:18px;color:var(--muted)}
+.entry-grid{display:grid;gap:12px;margin-top:12px}
+.entry-note{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.52);padding:13px;font-size:14px;line-height:1.55}
+.entry-note strong{color:var(--sage-dark)}
+
+@media(max-width:960px){
+  .home-card,.setup-wrap,.book-layout{grid-template-columns:1fr}
+  .cover-preview{min-height:420px}
+  .seeds,.library-grid{grid-template-columns:1fr}
+  .book-header{display:block}
+  .stats{min-width:0;margin-top:18px}
+  .side{position:relative;top:auto}
+}
+
+.footer{
+  text-align:center;
+  padding:32px 20px;
+  margin-top:48px;
+  font-size:12px;
+  line-height:1.8;
+  color:var(--muted);
+  border-top:1px solid rgba(0,0,0,.08);
+  opacity:.85;
+}
+.footer:hover{
+  opacity:1;
+}
+
+</style>
+
+<meta name="author" content="Patricia Tinoco">
+<meta name="copyright" content="Patricia Tinoco">
+<meta name="creator" content="Patricia Tinoco">
+<meta name="designer" content="Patricia Tinoco">
+
+</head>
+<body>
+<div class="app">
+  <nav class="nav">
+    <div class="brand"><div class="mark">🌿</div>VETA Spanish</div>
+    <div class="nav-actions">
+      <button class="ghost" onclick="showScreen('library')">My Library</button>
+      <button class="secondary" onclick="showScreen('setup')">New Blank Story</button>
+    </div>
+  </nav>
+
+  <section id="home" class="screen active home">
+    <div class="home-card">
+      <div class="hero-copy">
+        <div class="kicker">AI-guided storytelling</div>
+        <h1>Write your first sentence.</h1>
+        <p class="subtitle">Write YOUR story in Spanish. VETA corrects gently, teaches useful vocabulary, explains grammar, and builds the story from your idea.</p>
+        <div class="tagline">Your sentence starts the story.</div>
+        <button class="primary" onclick="showScreen('setup')">Start Writing</button>
+      </div>
+
+      <div class="cover-preview">
+        <div>
+          <div class="cover-small">Free Writing Mode</div>
+          <div class="cover-title">Your<br>Story</div>
+          <div class="cover-meta">
+            <div class="meta-box"><strong>0</strong><span>Words</span></div>
+            <div class="meta-box"><strong>1</strong><span>Page</span></div>
+            <div class="meta-box"><strong>0</strong><span>Words learned</span></div>
+          </div>
+        </div>
+        <div class="cover-small">VETA Spanish</div>
+        <div class="cover-ornament">📖</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="setup" class="screen">
+    <div class="setup-wrap">
+      <div class="panel setup-panel">
+        <h2>Begin with your idea</h2>
+        <p>Choose a level or simply start writing. VETA builds the story from your sentence without throwing grammar bricks at your face. A rare mercy.</p>
+
+        <div class="field">
+          <label>Story World</label>
+          <select id="genre" onchange="suggestTitle()">
+            <option>Free Writing</option>
+            <option>Mystery</option>
+            <option>Travel</option>
+            <option>Magical Realism</option>
+            <option>Science Fiction</option>
+            <option>Everyday Life</option>
+            <option>Panama Adventure</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Spanish Level</label>
+          <select id="level" onchange="updateLevelGuide()">
+            <option>A1 Explorer</option>
+            <option>A2 Traveler</option>
+            <option>B1 Storyteller</option>
+            <option>B2 Narrator</option>
+            <option>C1 Writer</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Story Title</label>
+          <input id="storyTitle" value="My Story"/>
+        </div>
+
+        <button class="primary" onclick="beginStory()">Open Book</button>
+      </div>
+
+      <div class="panel">
+        <div class="seeds" id="seedList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book" class="screen">
+    <div class="book-layout">
+      <div class="panel book-main">
+        <div class="book-header">
+          <div>
+            <div class="book-title" id="bookTitle">My Story</div>
+            <div class="book-sub" id="bookMeta">Free Writing • A1 Explorer</div>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong id="wordCount">0</strong><span>Words</span></div>
+            <div class="stat"><strong id="pageCount">1</strong><span>Pages</span></div>
+            <div class="stat"><strong id="vocabCount">0</strong><span>Vocab</span></div>
+          </div>
+        </div>
+
+        <div class="page-label" id="pageLabel">✦ First Page</div>
+        <div class="story-text" id="storyText">
+          <strong>Write your first sentence in Spanish.</strong><br><br>
+          Your story can be about anything.
+          <br><br>
+          Use these examples as structure models, not required story beginnings.<br><br>
+          <strong>A1:</strong> Tengo un perro.<br>
+          <strong>A2:</strong> Estoy en Panamá. Quiero visitar el mercado.<br>
+          <strong>B1:</strong> Una noche encontré una carta extraña.<br>
+          <strong>B2:</strong> Una decisión inesperada cambió mis planes.<br>
+          <strong>C1:</strong> A veces recordamos lugares que ya no existen.
+        </div>
+
+        <div id="entries"></div>
+
+        <div class="writer">
+          <textarea id="studentText" placeholder="Write one short sentence in Spanish..."></textarea>
+          <div id="levelGuide" class="level-guide">
+            <strong>✍️ A1 Explorer</strong>
+            Write one short sentence.
+            <div class="level-examples">
+              Examples: Tengo un perro. / Estoy en casa. / Me gusta el café.
+            </div>
+          </div>
+          <div class="writer-row">
+            <span class="hint">Tip: write one or two sentences. Ctrl/⌘ + Enter also works.</span>
+            <button class="primary" onclick="continueBook()">Continue</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel side">
+        <h3>VETA Notes</h3>
+        <div class="feedback-card">
+          <div class="f-title">✅ Correction</div>
+          <p id="correction">Write your first sentence and VETA will guide you.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">📚 Grammar Note</div>
+          <p id="grammarNote">VETA will explain one useful grammar point.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">📖 New Word</div>
+          <p id="newWord">historia = story</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">🌱 Related Words</div>
+          <ul id="relatedWords" class="vocab-list"></ul>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">💬 Useful Phrase</div>
+          <p id="usefulPhrase">Mi historia empieza.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">⭐ What You Did Well</div>
+          <p id="goodJob">Your effort will appear here.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">🎯 Next Challenge</div>
+          <p id="challenge">Write your first sentence.</p>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">👉 Choose Your Path</div>
+          <div id="choiceList" class="choice-list"></div>
+        </div>
+        <div class="path-card">
+          <strong>Story Path</strong>
+          <div id="storyPath">No choices yet.</div>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">👤 Characters</div>
+          <ul id="charactersList" class="memory-list"></ul>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">📍 Places</div>
+          <ul id="placesList" class="memory-list"></ul>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">🔑 Objects</div>
+          <ul id="objectsList" class="memory-list"></ul>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">🎯 Goals</div>
+          <ul id="goalsList" class="memory-list"></ul>
+        </div>
+        <div class="feedback-card">
+          <div class="f-title">💪 Strengths</div>
+          <p id="strengths">VETA will notice what you are doing well.</p>
+        </div>
+        <div class="api-note">
+          Connected to VETA Story Tutor API. VETA gives feedback, grammar, vocabulary, choices, and saves your path.
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="library" class="screen">
+    <div class="panel setup-panel">
+      <h2>My Library</h2>
+      <p>Your local story collection. For now it lives in this browser, because every empire starts as a suspicious little folder somewhere.</p>
+      <div id="libraryGrid" class="library-grid"></div>
+    </div>
+  </section>
+
+  <button class="feedback-float" onclick="openFeedback()">💬 Feedback</button>
+
+  <div id="feedbackModal" class="feedback-modal">
+    <div class="feedback-box">
+      <h2>How was VETA?</h2>
+      <p>Your feedback helps shape the beta. Tiny miracle: users telling us what they actually need instead of us guessing dramatically.</p>
+
+      <div class="feedback-options">
+        <button class="feedback-choice" onclick="selectFeedback('Loved it', this)">😀 Loved it</button>
+        <button class="feedback-choice" onclick="selectFeedback('Confusing', this)">😐 Confusing</button>
+        <button class="feedback-choice" onclick="selectFeedback('Something broke', this)">😕 Something broke</button>
+      </div>
+
+      <textarea id="feedbackText" placeholder="What did you like, what confused you, or what should VETA improve?"></textarea>
+
+      <div class="feedback-row">
+        <span class="feedback-small">This opens your email app. No login, no tragic form architecture yet.</span>
+        <div>
+          <button class="ghost" onclick="closeFeedback()">Cancel</button>
+          <button class="primary" onclick="sendFeedback()">Send Feedback</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_URL = "https://veta-story-api.pachyt.workers.dev"; // Cloudflare Worker / OpenRouter endpoint
+
+let feedbackRating = "";
+
+function openFeedback(){
+  document.getElementById("feedbackModal").classList.add("active");
+}
+
+function closeFeedback(){
+  document.getElementById("feedbackModal").classList.remove("active");
+}
+
+function selectFeedback(value, el){
+  feedbackRating = value;
+  document.querySelectorAll(".feedback-choice").forEach(btn=>btn.classList.remove("selected"));
+  el.classList.add("selected");
+}
+
+function sendFeedback(){
+  const comment = document.getElementById("feedbackText").value.trim();
+  const subject = encodeURIComponent("VETA Beta Feedback");
+  const body = encodeURIComponent(
+`Rating: ${feedbackRating || "Not selected"}
+
+Comment:
+${comment || "No comment"}
+
+Story:
+${state?.title || "No story yet"}
+
+Level:
+${state?.level || "Unknown"}
+
+Words:
+${state?.words || 0}
+
+Pages:
+${state?.pages || 1}
+
+VETA URL:
+${location.href}`
+  );
+
+  localStorage.setItem("vetaLastFeedback", JSON.stringify({
+    rating: feedbackRating,
+    comment,
+    story: state?.title || "",
+    createdAt: new Date().toISOString()
+  }));
+
+  window.location.href = `mailto:pachyt@gmail.com?subject=${subject}&body=${body}`;
+  closeFeedback();
+}
+
+
+const seedData = {
+  "Free Writing": [
+    ["✍️","Start with any sentence. VETA builds the story from your idea.","My Story"],
+    ["🧠","Write about your life, work, travel, pets, dreams, or anything you want.","My Story"],
+    ["🌿","No preset plot. Your words create the world.","My Story"],
+    ["📖","A blank page for your Spanish.","My Story"]
+  ],
+  "Mystery": [
+    ["🗝️","Use mystery as inspiration, not as a required plot.","My Mystery"],
+    ["🕯️","A strange object can start your own scene.","My Mystery"],
+    ["🗺️","A map, a key, or a question can begin the story.","My Mystery"],
+    ["🌙","You decide the characters and setting.","My Mystery"]
+  ],
+  "Travel": [
+    ["✈️","Write about a trip, city, airport, hotel, or food.","My Trip"],
+    ["🌃","Use travel as a frame for your own story.","My Trip"],
+    ["🚕","A taxi, street, or question can start the scene.","My Trip"],
+    ["🌊","You choose the place.","My Trip"]
+  ],
+  "Magical Realism": [
+    ["✨","Mix daily life with something strange.","My Magical Story"],
+    ["🥭","Use a real place and add a magical detail.","My Magical Story"],
+    ["🐈","A normal object can behave strangely.","My Magical Story"],
+    ["🕯️","You control the magic.","My Magical Story"]
+  ],
+  "Science Fiction": [
+    ["🚀","Write about technology, space, robots, or the future.","My Sci-Fi Story"],
+    ["🤖","A robot can ask one simple question.","My Sci-Fi Story"],
+    ["🪐","You choose the world.","My Sci-Fi Story"],
+    ["📡","A message can begin the scene.","My Sci-Fi Story"]
+  ],
+  "Everyday Life": [
+    ["☕","Write about home, work, food, pets, or routine.","My Daily Story"],
+    ["🏠","Simple daily life is perfect for Spanish practice.","My Daily Story"],
+    ["📚","Use real experiences if you want.","My Daily Story"],
+    ["🌧️","Small moments make good stories.","My Daily Story"]
+  ],
+  "Panama Adventure": [
+    ["🌿","Write about Panama, nature, travel, or culture.","My Panama Story"],
+    ["🚤","Use Panama as inspiration, not obligation.","My Panama Story"],
+    ["🏛️","You choose the place and people.","My Panama Story"],
+    ["🌉","A real location can start your own story.","My Panama Story"]
+  ]
+};
+
+let state = {
+  title:"My Story",
+  genre:"Free Writing",
+  level:"A1 Explorer",
+  words:0,
+  pages:1,
+  vocab:0,
+  entries:[],
+  path:[],
+  characters:[],
+  places:[],
+  objects:[],
+  goals:[],
+  strengths:[],
+  started:false
+};
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  const target = document.getElementById(id);
+  if(!target){
+    console.warn("Missing screen:", id);
+    return;
+  }
+  target.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(id==="library") renderLibrary();
+}
+
+function renderSeeds(){
+  const genre = document.getElementById("genre").value;
+  const list = document.getElementById("seedList");
+  list.innerHTML = "";
+  seedData[genre].forEach((seed, index)=>{
+    const div = document.createElement("div");
+    div.className = "seed" + (index===0 ? " selected" : "");
+    div.onclick = () => selectSeed(div, seed);
+    div.innerHTML = `<div class="emoji">${seed[0]}</div><strong>${seed[2]}</strong><span>${seed[1]}</span>`;
+    list.appendChild(div);
+  });
+  document.getElementById("storyTitle").value = seedData[genre][0][2];
+}
+
+function selectSeed(el, seed){
+  document.querySelectorAll(".seed").forEach(s=>s.classList.remove("selected"));
+  el.classList.add("selected");
+  document.getElementById("storyTitle").value = seed[2];
+}
+
+function suggestTitle(){ try {
+  renderSeeds();
+  updateLevelGuide();
+  renderMemoryPanels();
+  renderStrengths();
+} catch(error) {
+  console.warn("VETA initial render warning:", error);
+} }
+
+function beginStory(){
+  state = {
+    title: document.getElementById("storyTitle").value.trim() || "Untitled Story",
+    genre: document.getElementById("genre").value || "Free Writing",
+    level: document.getElementById("level").value,
+    words:0,
+    pages:1,
+    vocab:0,
+    entries:[],
+    path:[],
+    characters:[],
+    places:[],
+    objects:[],
+    goals:[],
+    strengths:[],
+    started:true
+  };
+
+  document.getElementById("bookTitle").innerText = state.title;
+  document.getElementById("bookMeta").innerText = `${state.genre} • ${state.level}`;
+  document.getElementById("entries").innerHTML = "";
+  document.getElementById("pageLabel").innerText = "✦ First Page";
+
+  const choices = document.getElementById("choiceList");
+  if(choices) choices.innerHTML = "";
+
+  showScreen("book");
+  updateStats();
+
+  try {
+    renderStoryPath();
+    renderMemoryPanels();
+    renderStrengths();
+    updateLevelGuide();
+  } catch(error) {
+    console.warn("VETA panel render warning:", error);
+  }
+
+  saveCurrentStory();
+
+  const input = document.getElementById("studentText");
+  if(input) input.focus();
+}
+
+const localEngine = [
+  {
+    correction:"Your sentence is understandable. Try adding an accent if you use past tense verbs.",
+    word:"cerradura = lock",
+    tip:"Add one detail: color, place, emotion, or reason.",
+    story:"La puerta vibra suavemente. Detrás de ella escuchas pasos lentos y una voz que dice tu nombre. ¿Respondes o esperas?"
+  },
+  {
+    correction:"Good. Your idea is clear. For more natural Spanish, connect actions with entonces, porque, or pero.",
+    word:"susurrar = to whisper",
+    tip:"Use porque to explain your decision.",
+    story:"La voz susurra una frase: “El mercado no está donde crees.” De pronto, los puestos desaparecen y solo queda un camino de flores amarillas. ¿Lo sigues?"
+  },
+  {
+    correction:"Nice progress. Try using the first person: quiero, veo, camino, pregunto.",
+    word:"camino = path",
+    tip:"Use one verb in the present tense and one object.",
+    story:"Sigues el camino y encuentras una mesa pequeña con tres objetos: una llave, una carta y una flor seca. Solo puedes tomar uno. ¿Cuál eliges?"
+  },
+  {
+    correction:"Excellent attempt. Your sentence moves the story forward.",
+    word:"elegir = to choose",
+    tip:"Write one sentence with elijo because…",
+    story:"Cuando tomas el objeto, el mercado regresa a tu alrededor, pero ahora todos te miran como si supieran algo que tú todavía no sabes. ¿Qué preguntas?"
+  }
+];
+
+async function continueBook(fromChoice = false){
+  const text = document.getElementById("studentText").value.trim();
+  if(!text) return;
+
+  const button = document.querySelector(".writer-row .primary");
+  const originalButtonText = button.innerText;
+  button.innerText = "VETA is writing...";
+  button.disabled = true;
+
+  const words = text.split(/\s+/).filter(Boolean).length;
+  state.words += words;
+  state.pages += 1;
+
+  let moment;
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        text: text,
+        level: state.level,
+        genre: "Free Writing",
+        story: {
+          title: state.title || "Student's Story",
+          entries: state.entries,
+          path: state.path || [],
+          characters: state.characters || [],
+          places: state.places || [],
+          objects: state.objects || [],
+          goals: state.goals || [],
+          strengths: state.strengths || []
+        }
+      })
+    });
+
+    moment = await response.json();
+    if(!moment.story) throw new Error("Invalid VETA response");
+
+  } catch(error) {
+    moment = {
+      correction: "Connection issue. Your sentence was saved locally.",
+      grammar: "No grammar note available.",
+      word: "intento = attempt",
+      relatedWords: [],
+      phrase: "",
+      goodJob: "You tried to continue the story.",
+      challenge: "Try again in a moment.",
+      story: "Tu historia espera. Escribe otra frase cuando quieras continuar.",
+      choices: ["Intento otra vez.", "Escribo otra frase.", "Cambio mi idea."],
+      characters: [],
+      places: [],
+      objects: [],
+      goals: [],
+      strengths: ["You tried to continue the story."]
+    };
+  }
+
+  state.vocab += 1;
+  if(!state.path) state.path = [];
+  state.path.push(text);
+
+  if(Array.isArray(moment.characters) && moment.characters.length){
+    state.characters = mergeUnique(state.characters || [], moment.characters).slice(-12);
+  }
+  if(Array.isArray(moment.places) && moment.places.length){
+    state.places = mergeUnique(state.places || [], moment.places).slice(-12);
+  }
+  if(Array.isArray(moment.objects) && moment.objects.length){
+    state.objects = mergeUnique(state.objects || [], moment.objects).slice(-12);
+  }
+  if(Array.isArray(moment.goals) && moment.goals.length){
+    state.goals = mergeUnique(state.goals || [], moment.goals).slice(-12);
+  }
+  if(Array.isArray(moment.strengths) && moment.strengths.length){
+    state.strengths = mergeUnique(state.strengths || [], moment.strengths).slice(-12);
+  } else if(moment.goodJob){
+    state.strengths = mergeUnique(state.strengths || [], [moment.goodJob]).slice(-12);
+  }
+
+  const entryData = {
+    user:text,
+    choice:fromChoice,
+    correction:moment.correction || "",
+    grammar:moment.grammar || "",
+    word:moment.word || "",
+    relatedWords:Array.isArray(moment.relatedWords) ? moment.relatedWords : [],
+    phrase:moment.phrase || "",
+    goodJob:moment.goodJob || "",
+    challenge:moment.challenge || "",
+    story:moment.story || "",
+    choices:Array.isArray(moment.choices) ? moment.choices : [],
+    characters:Array.isArray(moment.characters) ? moment.characters : [],
+    places:Array.isArray(moment.places) ? moment.places : [],
+    objects:Array.isArray(moment.objects) ? moment.objects : [],
+    goals:Array.isArray(moment.goals) ? moment.goals : [],
+    strengths:Array.isArray(moment.strengths) ? moment.strengths : []
+  };
+
+  state.entries.push(entryData);
+
+  const entry = document.createElement("div");
+  entry.className = "entry";
+  entry.innerHTML = `
+    <div class="by">${fromChoice ? "You chose" : "You wrote"}</div>
+    ${escapeHtml(text)}
+    <br><br>
+    <div class="by">Story continues</div>
+    ${moment.story}
+    <div class="entry-grid">
+      <div class="entry-note"><strong>✅ Correction</strong><br>${escapeHtml(moment.correction || "")}</div>
+      <div class="entry-note"><strong>📚 Grammar</strong><br>${escapeHtml(moment.grammar || "")}</div>
+      <div class="entry-note"><strong>⭐ Good job</strong><br>${escapeHtml(moment.goodJob || "")}</div>
+    </div>
+  `;
+  document.getElementById("entries").appendChild(entry);
+
+  updateTutorPanel(moment);
+  document.getElementById("pageLabel").innerText = `✦ Page ${state.pages}`;
+  document.getElementById("studentText").value = "";
+  updateStats();
+  saveCurrentStory();
+
+  button.innerText = originalButtonText;
+  button.disabled = false;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateTutorPanel(moment){
+  document.getElementById("correction").innerText = moment.correction || "";
+  document.getElementById("grammarNote").innerText = moment.grammar || "";
+  document.getElementById("newWord").innerText = moment.word || "";
+  const related = document.getElementById("relatedWords");
+  related.innerHTML = "";
+  (Array.isArray(moment.relatedWords) ? moment.relatedWords : []).forEach(word=>{
+    const li = document.createElement("li");
+    li.innerText = word;
+    related.appendChild(li);
+  });
+  document.getElementById("usefulPhrase").innerText = moment.phrase || "";
+  document.getElementById("goodJob").innerText = moment.goodJob || "";
+  document.getElementById("challenge").innerText = moment.challenge || "";
+  renderChoices(moment.choices || []);
+  renderStoryPath();
+  renderMemoryPanels();
+  renderStrengths();
+}
+
+function renderChoices(choices){
+  const list = document.getElementById("choiceList");
+  if(!list) return;
+  list.innerHTML = "";
+  choices.slice(0,3).forEach(choice=>{
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.innerText = "👉 " + choice;
+    btn.onclick = () => choosePath(choice);
+    list.appendChild(btn);
+  });
+}
+
+function choosePath(choice){
+  document.getElementById("studentText").value = choice;
+  continueBook(true);
+}
+
+function renderStoryPath(){
+  const el = document.getElementById("storyPath");
+  if(!el) return;
+  const path = state.path || [];
+  el.innerText = path.length ? path.slice(-6).join(" → ") : "No choices yet.";
+}
+
+function mergeUnique(base, incoming){
+  const result = Array.isArray(base) ? [...base] : [];
+  (incoming || []).forEach(item=>{
+    const text = String(item || "").trim();
+    if(text && !result.includes(text)) result.push(text);
+  });
+  return result;
+}
+
+function renderMemoryList(id, items, emptyText){
+  const list = document.getElementById(id);
+  if(!list) return;
+  list.innerHTML = "";
+  const values = Array.isArray(items) ? items : [];
+  if(!values.length){
+    const li = document.createElement("li");
+    li.innerText = emptyText;
+    list.appendChild(li);
+    return;
+  }
+  values.slice(-8).forEach(item=>{
+    const li = document.createElement("li");
+    li.innerText = item;
+    list.appendChild(li);
+  });
+}
+
+function renderMemoryPanels(){
+  renderMemoryList("charactersList", state.characters, "No characters yet.");
+  renderMemoryList("placesList", state.places, "No places yet.");
+  renderMemoryList("objectsList", state.objects, "No objects yet.");
+  renderMemoryList("goalsList", state.goals, "No goals yet.");
+}
+
+function renderStrengths(){
+  const el = document.getElementById("strengths");
+  if(!el) return;
+  const strengths = state.strengths || [];
+  el.innerText = strengths.length ? strengths.slice(-3).join(" • ") : "VETA will notice what you are doing well.";
+}
+
+function updateStats(){
+  document.getElementById("wordCount").innerText = state.words;
+  document.getElementById("pageCount").innerText = state.pages;
+  document.getElementById("vocabCount").innerText = state.vocab;
+}
+
+function saveCurrentStory(){
+  if(!state.started) return;
+  const library = JSON.parse(localStorage.getItem("vetaLibrary") || "[]");
+  const existing = library.findIndex(s=>s.title===state.title);
+  const snapshot = {...state, updated:new Date().toISOString()};
+  if(existing >= 0) library[existing] = snapshot;
+  else library.unshift(snapshot);
+  localStorage.setItem("vetaLibrary", JSON.stringify(library.slice(0,12)));
+}
+
+function renderLibrary(){
+  const grid = document.getElementById("libraryGrid");
+  const library = JSON.parse(localStorage.getItem("vetaLibrary") || "[]");
+  if(!library.length){
+    grid.innerHTML = `<div class="empty">No stories yet. Start one, because apparently books refuse to write themselves.</div>`;
+    return;
+  }
+  grid.innerHTML = "";
+  library.forEach(book=>{
+    const div = document.createElement("div");
+    div.className = "library-book";
+    div.innerHTML = `<div><h3>${escapeHtml(book.title)}</h3><p>${book.genre} • ${book.level}</p></div><div><p><strong>${book.words}</strong> words<br><strong>${book.pages}</strong> pages<br><strong>${book.vocab}</strong> vocabulary words<br><strong>${((book.characters || []).length + (book.places || []).length + (book.objects || []).length + (book.goals || []).length)}</strong> memory items</p></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+
+function updateLevelGuide(){
+  const levelSelect = document.getElementById("level");
+  const guide = document.getElementById("levelGuide");
+  const input = document.getElementById("studentText");
+  if(!levelSelect || !guide || !input) return;
+
+  const level = levelSelect.value;
+
+  if(level.includes("A1")){
+    guide.innerHTML = `
+      <strong>✍️ A1 Explorer</strong>
+      Write one short sentence.
+      <div class="level-examples">
+        Examples of simple sentences:<br><br>
+        • Tengo un perro.<br>
+        • Estoy en casa.<br>
+        • Me gusta el café.<br><br>
+        Use these as sentence models. You can write about ANY topic.
+      </div>
+      <div class="level-free">
+        ✨ Travel • Family • Food • Work • Pets • Daily life • Your own experiences
+      </div>
+    `;
+    input.placeholder = "Write one short sentence in Spanish...";
+  } else if(level.includes("A2")){
+    guide.innerHTML = `
+      <strong>🧳 A2 Traveler</strong>
+      Write two simple connected sentences.
+      <div class="level-examples">
+        Model sentences:<br><br>
+        • Estoy en Panamá. Quiero visitar la playa.<br>
+        • Tengo vacaciones y estoy feliz.<br><br>
+        You do not need to use these examples. Take the structure and write your own idea.
+      </div>
+      <div class="level-free">
+        ✨ Your story can be about anything.
+      </div>
+    `;
+    input.placeholder = "Write two simple sentences in Spanish...";
+  } else if(level.includes("B1")){
+    guide.innerHTML = `
+      <strong>📖 B1 Storyteller</strong>
+      Write a short paragraph.
+      <div class="level-examples">
+        Model paragraph:<br><br>
+        Una noche encontré una carta extraña en mi hotel.<br><br>
+        Use this only as inspiration. Create your own story, character, or situation.
+      </div>
+      <div class="level-free">
+        ✨ Your topic can be personal, fictional, professional, cultural, or totally strange.
+      </div>
+    `;
+    input.placeholder = "Write a short paragraph in Spanish...";
+  } else if(level.includes("B2")){
+    guide.innerHTML = `
+      <strong>🖋️ B2 Narrator</strong>
+      Develop a scene, character, or conflict.
+      <div class="level-examples">
+        Model sentence:<br><br>
+        Una decisión inesperada cambió mis planes.<br><br>
+        Use the complexity as a model, not as the beginning. Create your own characters, themes, and ideas.
+      </div>
+      <div class="level-free">
+        ✨ Work with tone, tension, description, and motivation.
+      </div>
+    `;
+    input.placeholder = "Develop a scene, character, or conflict in Spanish...";
+  } else if(level.includes("C1")){
+    guide.innerHTML = `
+      <strong>✨ C1 Writer</strong>
+      Develop nuance, tone, reflection, or narrative voice.
+      <div class="level-examples">
+        Model sentence:<br><br>
+        A veces recordamos lugares que ya no existen.<br><br>
+        This is only an example. Create any story, reflection, opinion, memory, or topic you wish.
+      </div>
+      <div class="level-free">
+        ✨ Explore voice, irony, ambiguity, rhythm, and style.
+      </div>
+    `;
+    input.placeholder = "Develop a nuanced scene, reflection, or narrative voice in Spanish...";
+  }
+}
+
+
+document.getElementById("studentText").addEventListener("keydown", e=>{
+  if(e.key==="Enter" && (e.ctrlKey || e.metaKey)) continueBook();
+});
+
+try {
+  renderSeeds();
+  updateLevelGuide();
+  renderMemoryPanels();
+  renderStrengths();
+} catch(error) {
+  console.warn("VETA initial render warning:", error);
+}
+</script>
+
+<footer class="footer">
+  © 2026 VETA Language<br>
+  Created and designed by Patricia Tinoco (@soypachyt)<br>
+  Learn Spanish. Write Your Story.
+</footer>
+
+</body>
+</html>
